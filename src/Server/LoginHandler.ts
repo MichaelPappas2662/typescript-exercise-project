@@ -1,5 +1,6 @@
 import { IncomingMessage, ServerResponse } from "http"
 import { resolve } from "path/posix";
+import { Account } from "./Model";
 
 export class LoginHandler {
     private req: IncomingMessage;
@@ -16,7 +17,7 @@ export class LoginHandler {
        console.log(`request password:${body.password}`)
     }
 
-    private async getRequestBody():Promise<any> {
+    private async getRequestBody():Promise<Account> {
         return new Promise((resolve, reject) => {
             let body = '';
             this.req.on('data', (data:string)=> {
