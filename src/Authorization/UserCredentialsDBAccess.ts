@@ -4,13 +4,26 @@ import * as Nedb from 'nedb';
 
 export class UserCredentialsDBAccess {
 
-    private nedb:Nedb = new Nedb('database/UserCredentials.db');
+    private nedb:Nedb ;
 
-    public async putUserCredential(userCredentials: UserCredentials):Promise<any>{
-
+    constructor(){
+        this.nedb = new Nedb('database/UserCredentials.db');
+        this.nedb.loadDatabase();
     }
 
-    public async getUserCredentials(username: string, password: string):Promise<UserCredentials | undefined {
+    public async putUserCredential(userCredentials: UserCredentials): Promise<any> {
+        return new Promise((resolve, reject) => {
+            this.nedb.insert(userCredentials, function (err: Error | null, docs: any):void {
+                    if (err) {
+                        reject(err);
+                    } else {
+                        resolve(docs);
+                    }
+                })
+        });
+    }
 
+    public async getUserCredentials(_username: string, _password: string):Promise<UserCredentials | undefined >{
+        throw "";
     }
 }
